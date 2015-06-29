@@ -42,11 +42,38 @@ class GUI(QtGui.QMainWindow):
             self.UI.pose_listWidget.addItem(QtGui.QListWidgetItem(QtGui.QIcon(v),str(k)))
 
     def __setSlots(self):
+        self.UI.filedialog_pushButton.clicked.connect(self.openFileDialog)
+        self.UI.pathset_pushButton.clicked.connect(self.setDirPath)
         self.UI.entry_pushButton.clicked.connect(self.assetEntryWindow)
         self.UI.save_pushButton.clicked.connect(self.poseSave)
         self.UI.delete_pushButton.clicked.connect(self.assetDelete)
         self.UI.load_pushButton.clicked.connect(self.poseLoad)
         self.UI.load_comboBox.currentIndexChanged.connect(self.loadName)
+
+    def openFileDialog(self):
+        path = QtGui.QFileDialog.getExistingDirectory(self, "Select Save Path", "",False)
+        self.UI.pathtext_lineEdit.setText(path)
+
+    def setDirPath(self):
+        print "setDirPath"
+        Define.DATAUPPATH = self.UI.pathtext_lineEdit.text()
+        print Define.DATAUPPATH
+
+        assetlist = fnc.searchAssetName()
+        for asset in assetlist:
+            if os.path.isdir:
+                if not asset == ".DS_Store":
+                    self.UI.asset_comboBox.addItem(asset)
+                    self.UI.load_comboBox.addItem(asset)
+
+        asset_name = self.UI.load_comboBox.currentText()
+        posedict = fnc.searchPoseList(asset_name)
+        self.UI.pose_listWidget.setViewMode(QtGui.QListView.IconMode)
+        self.UI.pose_listWidget.setIconSize(QtCore.QSize(200, 200))
+
+        for (k, v) in posedict.items():
+            self.UI.pose_listWidget.addItem(QtGui.QListWidgetItem(QtGui.QIcon(v),str(k)))
+
 
     def loadName(self):
         self.UI.pose_listWidget.clear()

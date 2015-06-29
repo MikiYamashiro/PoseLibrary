@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>510</width>
-    <height>749</height>
+    <width>524</width>
+    <height>799</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>140</y>
       <width>491</width>
       <height>121</height>
      </rect>
@@ -103,7 +103,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>200</y>
+      <y>260</y>
       <width>491</width>
       <height>511</height>
      </rect>
@@ -150,7 +150,7 @@
        <x>10</x>
        <y>470</y>
        <width>471</width>
-       <height>20</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -162,7 +162,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
+      <y>60</y>
       <width>491</width>
       <height>80</height>
      </rect>
@@ -207,23 +207,55 @@
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>510</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>491</width>
+      <height>61</height>
+     </rect>
     </property>
-    <addaction name="actionSetting"/>
+    <property name="title">
+     <string>PoseLibrary Save Path</string>
+    </property>
+    <widget class="QLineEdit" name="pathtext_lineEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>391</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="filedialog_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>30</y>
+       <width>16</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pathset_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>30</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>SET</string>
+     </property>
+    </widget>
    </widget>
-   <addaction name="menuEdit"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSetting">

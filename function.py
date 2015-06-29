@@ -4,9 +4,9 @@ from maya import OpenMaya
 import os
 import sys
 import json
+from . import Define
 
 
-DATAUPPATH = ""
 CAPTUREFOLDER = "image"
 JSONFOLDER = "json"
 ICON_WIDTH = 180
@@ -25,7 +25,7 @@ def writeFrameBuffer(imgae_path, width, height):
 
 
 def GetImage(assename, posename):
-    image_path = os.path.join(DATAUPPATH, CAPTUREFOLDER, assename, "%s.png" % posename)
+    image_path = os.path.join(Define.DATAUPPATH, CAPTUREFOLDER, assename, "%s.png" % posename)
     writeFrameBuffer(image_path, ICON_WIDTH, ICON_HEIGHT)
     return image_path
 
@@ -55,16 +55,16 @@ def assetSetUp(assetname):
     assetdict = {}
     sel_list = getObjects("transform", True)
     assetdict.update({assetname:sel_list})
-    astfolder = os.path.join(DATAUPPATH,JSONFOLDER, assetname)
+    astfolder = os.path.join(Define.DATAUPPATH,JSONFOLDER, assetname)
     os.mkdir(astfolder)
-    image_path = os.path.join(DATAUPPATH, CAPTUREFOLDER, assetname)
+    image_path = os.path.join(Define.DATAUPPATH, CAPTUREFOLDER, assetname)
     os.mkdir(image_path)
     jsonpath = os.path.join(astfolder, "info.json")
     writeJSON(assetdict, jsonpath)
 
 
 def assetInformation(assetname):
-    jsonpath = os.path.join(DATAUPPATH, JSONFOLDER, assetname, "info.json")
+    jsonpath = os.path.join(Define.DATAUPPATH, JSONFOLDER, assetname, "info.json")
     asset_info = readJSON(jsonpath)
     return asset_info
 
@@ -84,7 +84,7 @@ def poseMemory(riglist):
 
 
 def readPose(asset_name, pose_name):
-    jsonpath = os.path.join(DATAUPPATH, JSONFOLDER, asset_name, "%s.json" % (pose_name))
+    jsonpath = os.path.join(Define.DATAUPPATH, JSONFOLDER, asset_name, "%s.json" % (pose_name))
     pose_info = readJSON(jsonpath)
     for k, v in pose_info.items():
         for attrval in v:
@@ -93,7 +93,7 @@ def readPose(asset_name, pose_name):
 
 
 def searchAssetName():
-    assetdir = os.path.join(DATAUPPATH, JSONFOLDER)
+    assetdir = os.path.join(Define.DATAUPPATH, JSONFOLDER)
     if os.path.isdir(assetdir):
         return os.listdir(assetdir)
     else:
@@ -102,7 +102,7 @@ def searchAssetName():
 
 def searchPoseList(asset_name):
     assetdict = {}
-    assetdir = os.path.join(DATAUPPATH, CAPTUREFOLDER, asset_name)
+    assetdir = os.path.join(Define.DATAUPPATH, CAPTUREFOLDER, asset_name)
     if os.path.isdir(assetdir):
         asssetlist = os.listdir(assetdir)
         for image in asssetlist:
@@ -117,7 +117,7 @@ def poseEntry(asset_name, pose_name):
     asset_info = assetInformation(asset_name)
     rig_list = asset_info[asset_name]
     rigdict = poseMemory(rig_list)
-    jsonpath = os.path.join(DATAUPPATH, JSONFOLDER, asset_name, "%s.json" % (pose_name))
+    jsonpath = os.path.join(Define.DATAUPPATH, JSONFOLDER, asset_name, "%s.json" % (pose_name))
     writeJSON(rigdict, jsonpath)
 
     image_path = GetImage(asset_name, pose_name)
