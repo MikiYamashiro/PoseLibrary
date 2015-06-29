@@ -21,7 +21,7 @@ class GUI(QtGui.QMainWindow):
         self.setCentralWidget(self.UI)
         self.setWindowTitle(Define.WINDOW_TITLE)
         self.setObjectName(Define.WINDOW_NAME)
-        self.resize(510, 750)
+        self.resize(Define.MAINWINDOWSIZEX, Define.MAINWINDOWSIZEY)
         self.__setui()
         self.__setSlots()
 
@@ -43,7 +43,6 @@ class GUI(QtGui.QMainWindow):
 
     def __setSlots(self):
         self.UI.filedialog_pushButton.clicked.connect(self.openFileDialog)
-        self.UI.pathset_pushButton.clicked.connect(self.setDirPath)
         self.UI.entry_pushButton.clicked.connect(self.assetEntryWindow)
         self.UI.save_pushButton.clicked.connect(self.poseSave)
         self.UI.delete_pushButton.clicked.connect(self.assetDelete)
@@ -51,29 +50,19 @@ class GUI(QtGui.QMainWindow):
         self.UI.load_comboBox.currentIndexChanged.connect(self.loadName)
 
     def openFileDialog(self):
-        path = QtGui.QFileDialog.getExistingDirectory(self, "Select Save Path", "",False)
-        self.UI.pathtext_lineEdit.setText(path)
-
-    def setDirPath(self):
-        print "setDirPath"
-        Define.DATAUPPATH = self.UI.pathtext_lineEdit.text()
-        print Define.DATAUPPATH
-
-        assetlist = fnc.searchAssetName()
-        for asset in assetlist:
-            if os.path.isdir:
-                if not asset == ".DS_Store":
-                    self.UI.asset_comboBox.addItem(asset)
-                    self.UI.load_comboBox.addItem(asset)
-
-        asset_name = self.UI.load_comboBox.currentText()
-        posedict = fnc.searchPoseList(asset_name)
-        self.UI.pose_listWidget.setViewMode(QtGui.QListView.IconMode)
-        self.UI.pose_listWidget.setIconSize(QtCore.QSize(200, 200))
-
-        for (k, v) in posedict.items():
-            self.UI.pose_listWidget.addItem(QtGui.QListWidgetItem(QtGui.QIcon(v),str(k)))
-
+        path = QtGui.QFileDialog.getExistingDirectory(self, "Select Save Path", "/Users/yamashiromiki/Documents/Data/PoseLibraryMovie",False)
+        if len(path) != 0:
+            self.UI.pathtext_lineEdit.setText(path)
+            self.UI.pose_listWidget.clear()
+            self.UI.load_comboBox.clear()
+            self.UI.asset_comboBox.clear()
+            Define.DATAUPPATH = self.UI.pathtext_lineEdit.text()
+            assetlist = fnc.searchAssetName()
+            for asset in assetlist:
+                if os.path.isdir:
+                    if not asset == ".DS_Store":
+                        self.UI.asset_comboBox.addItem(asset)
+                        self.UI.load_comboBox.addItem(asset)
 
     def loadName(self):
         self.UI.pose_listWidget.clear()
@@ -84,10 +73,11 @@ class GUI(QtGui.QMainWindow):
 
     def assetEntryWindow(self):
         asset_name = self.UI.asset_lineEdit.text()
-        fnc.assetSetUp(asset_name)
+        is_select = fnc.assetSetUp(asset_name)
         # Add Items ComboBox
-        self.UI.asset_comboBox.addItem(asset_name)
-        self.UI.load_comboBox.addItem(asset_name)
+        if is_select == True:
+            self.UI.asset_comboBox.addItem(asset_name)
+            self.UI.load_comboBox.addItem(asset_name)
 
     def poseSave(self):
         asset_name = self.UI.asset_comboBox.currentText()

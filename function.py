@@ -54,13 +54,23 @@ def writeJSON(dic, filepath):
 def assetSetUp(assetname):
     assetdict = {}
     sel_list = getObjects("transform", True)
-    assetdict.update({assetname:sel_list})
-    astfolder = os.path.join(Define.DATAUPPATH,JSONFOLDER, assetname)
-    os.mkdir(astfolder)
-    image_path = os.path.join(Define.DATAUPPATH, CAPTUREFOLDER, assetname)
-    os.mkdir(image_path)
-    jsonpath = os.path.join(astfolder, "info.json")
-    writeJSON(assetdict, jsonpath)
+    if len(sel_list) != 0:
+        if Define.DATAUPPATH == "":
+            raise Exception, "Not PoseLibrary Path"
+            return False
+        else:
+            print sel_list
+            assetdict.update({assetname:sel_list})
+            astfolder = os.path.join(Define.DATAUPPATH,JSONFOLDER, assetname)
+            os.makedirs(astfolder)
+            image_path = os.path.join(Define.DATAUPPATH, CAPTUREFOLDER, assetname)
+            os.makedirs(image_path)
+            jsonpath = os.path.join(astfolder, "info.json")
+            writeJSON(assetdict, jsonpath)
+            return True
+    else:
+        raise Exception, "Not Rig Selection"
+        return False
 
 
 def assetInformation(assetname):
